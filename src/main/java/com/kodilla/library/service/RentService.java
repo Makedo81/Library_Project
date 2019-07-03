@@ -8,7 +8,6 @@ import com.kodilla.library.entity.Title;
 import com.kodilla.library.entity.User;
 import com.kodilla.library.exceptions.BookNotAvailableException;
 import com.kodilla.library.mapper.BookMapper;
-import com.kodilla.library.mapper.RentMapper;
 import com.kodilla.library.mapper.TitleMapper;
 import com.kodilla.library.repository.BookDao;
 import com.kodilla.library.repository.RentDao;
@@ -19,35 +18,32 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 
 @Service
 public class RentService {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    BookService bookService;
+    private BookService bookService;
     @Autowired
-    RentDao rentDao;
+    private RentDao rentDao;
     @Autowired
-    BookDao bookDao;
+    private BookDao bookDao;
     @Autowired
-    TitleMapper titleMapper;
+    private TitleMapper titleMapper;
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
     @Autowired
-    RentMapper rentMapper;
-    @Autowired
-    BookMapper bookMapper;
+    private BookMapper bookMapper;
 
     public static final String AVAILABLE = "available";
     public static final String RENTED = "rented";
     public static final String LOST = "lost";
     boolean paid = true;
 
-    public void deleteRent(Long id) {
+    public void delete(Long id) {
         rentDao.deleteById(id);
     }
 
@@ -62,8 +58,8 @@ public class RentService {
                 .filter(u -> u.getFirstname().equals(user.getFirstname()))
                 .collect(toList());
         bookService.checkAvailableBooks(title);
-        boolean avaialble = bookService.checkIfAvailable();
-        if (avaialble) {
+        boolean available = bookService.checkIfAvailable();
+        if (available) {
             rent.setUser(checkedUser.get(0));
             rent.setBook(book);
             rent.setRentedDate(new Date());
@@ -73,7 +69,7 @@ public class RentService {
             bookDao.save(book);
         }
     }
-    public void returningBook (final RentDto rentDto){
+    public void returningBook(final RentDto rentDto){
         List<Rent> rents = rentDao.findRentByBookId(rentDto.getBook_id());
         User user = userDao.findById(rentDto.getUser_id());
         List<Rent> checkedRent = rents.stream()
@@ -87,31 +83,30 @@ public class RentService {
             rentDao.save(rents.get(0));
             rents.get(0).getBook().setStatus(AVAILABLE);
             bookDao.save(rents.get(0).getBook());
-        } else System.out.println("Something is wrong");
+        } else System.out.println(" Something is wrong. Conditions may not match all criteria");
     }
 
     public String updateStatusIfPaid(final RentDto rentDto) {
         List<Rent> rents = rentDao.findRentByBookId(rentDto.getBook_id());
         Date day = rents.get(0).getRentedDate();
-        LocalDate date = day.toInstant()
+        LocalDate rentDate = day.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
         List<Rent> rentList = rents.stream()
                 .filter(r -> r.getReturnedDate() == null)
                 .collect(toList());
-        Book book3 = rents.get(0).getBook();
-          if (date.equals(LocalDate.now())) {  //w celu szybkiego sprawdzenia kodu
-              //  if (date.compareTo(LocalDate.now().plusDays(30)) > 31) {  // prawidlowy warunek
-              if (book3.getStatus().equals(RENTED)) {
-                  System.out.println(1);
+        Book book = rents.get(0).getBook();
+        if (rentDate.isBefore(LocalDate.now().minusDays(30))) {
+              if (book.getStatus().equals(RENTED)) {
                   rentList.get(0).setReturnedDate(new Date());
-                  book3.setStatus(LOST);
-                  bookDao.save(book3);
-              } if(paid) {
+                  book.setStatus(LOST);
+                  bookDao.save(book);
+              } if (paid) {
                   System.out.println(" Book is paid and status set to available ");
-              bookService.updateStatusToAvaialble(bookMapper.mapToBookDto(book3));}
+              bookService.updateStatusToAvaialble(bookMapper.mapToBookDto(book));}
               else paid = false;
-          } return " Status has been changed.Book is available ";
+          }
+          return " Status has been changed. Book is available ";
     }
 }
 

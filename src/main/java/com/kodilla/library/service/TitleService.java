@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class TitleService {
 
     @Autowired
-    TitleDao titleDao;
+    private TitleDao titleDao;
 
     public Title save(Title title) {
         return titleDao.save(title);

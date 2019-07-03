@@ -8,13 +8,13 @@ import com.kodilla.library.repository.BookDao;
 import com.kodilla.library.repository.RentDao;
 import com.kodilla.library.repository.TitleDao;
 import com.kodilla.library.repository.UserDao;
+import com.kodilla.library.service.RentService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +31,8 @@ public class LibraryDaoTestSuite {
     TitleDao titleDao;
     @Autowired
     UserDao userDao;
+    @Autowired
+    RentService rentService;
 
     @Test
     public void testLibraryDaoSave() {
@@ -73,11 +75,11 @@ public class LibraryDaoTestSuite {
 
         Assert.assertEquals(1L,(long)idRent);
 
-//        rentDao.delete(Math.toIntExact(idRent));
-//        userDao.delete(id1);
-//        userDao.delete(id2);
-//        bookDao.delete(idBook);
-//        bookDao.delete(idBook2);
-//        titleDao.delete(Math.toIntExact(idTitle));
+        rentDao.deleteById(idRent);
+        userDao.deleteById(id2);
+        userDao.deleteById(id1);
+        bookDao.deleteById(idBook2);
+        bookDao.deleteById(idBook);
+
     }
 }

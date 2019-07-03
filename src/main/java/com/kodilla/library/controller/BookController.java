@@ -4,10 +4,7 @@ import com.kodilla.library.domain.BookAvailableDto;
 import com.kodilla.library.domain.BookDto;
 import com.kodilla.library.domain.BookWithTitleIdDto;
 import com.kodilla.library.domain.TitleDto;
-import com.kodilla.library.mapper.BookMapper;
-import com.kodilla.library.mapper.TitleMapper;
 import com.kodilla.library.service.BookService;
-import com.kodilla.library.service.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,13 +15,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class BookController {
 
     @Autowired
-    BookService bookService;
-    @Autowired
-    BookMapper bookMapper;
-    @Autowired
-    TitleService titleService;
-    @Autowired
-    TitleMapper titleMapper;
+    private BookService bookService;
 
     @RequestMapping(method = RequestMethod.POST, value = "addBook", consumes = APPLICATION_JSON_VALUE)
     public void addBook(@RequestBody BookWithTitleIdDto bookWithTitleIdDto) {
@@ -38,8 +29,7 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getAvailableBooks", consumes = APPLICATION_JSON_VALUE)
     public List<BookAvailableDto> getAvailableBooks(@RequestBody TitleDto titleDto) {
-        return bookService.checkAvailableBooks(titleDto);
-    }
+        return bookService.checkAvailableBooks(titleDto); }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
     public void deleteBook(@RequestParam Long bookId) {

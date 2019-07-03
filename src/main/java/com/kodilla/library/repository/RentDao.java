@@ -18,5 +18,4 @@ public interface RentDao extends CrudRepository <Rent,Integer> {
 
     @Query
     List<Rent> findRentByBookId(@Param("BOOKID") Long bookId);
-
 }

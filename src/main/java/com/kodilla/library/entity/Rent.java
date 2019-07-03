@@ -16,27 +16,12 @@ public class Rent {
 
     private Long id;
     public Date rentedDate;
-    public  Date returnedDate;
+    public Date returnedDate;
     private User user;
     private Book book;
 
-    public Rent(Date rentedDate, Date returnedDate) {
-        this.rentedDate = null;
-        this.returnedDate = null;
-    }
-    public Rent(User user,Book book,Date rentedDate, Date returnedDate) {
-        this.user= user;
-        this.book = book;
-        this.rentedDate = null;
-        this.returnedDate = null;
-    }
-    public Rent(User user,Book book) {
-        this.user= user;
-        this.book = book;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @NotNull
     @Column(name = "RENT_ID", unique = true)
     public Long getId() {
         return id;

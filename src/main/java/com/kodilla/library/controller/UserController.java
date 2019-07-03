@@ -1,14 +1,10 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.UserDto;
-import com.kodilla.library.entity.User;
 import com.kodilla.library.mapper.UserMapper;
 import com.kodilla.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -16,9 +12,9 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class UserController {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST,value = "addUser",consumes = APPLICATION_JSON_VALUE)
     public void addUser(@RequestBody UserDto userDto) {

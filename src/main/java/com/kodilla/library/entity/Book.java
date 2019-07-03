@@ -30,13 +30,6 @@ public class Book {
         this.title = title;
     }
 
-    public Book(Long id,Title title) {
-        this.title = title;
-    }
-
-    public Book(String status, String title, int year_published) {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOK_ID", unique = true)
@@ -46,7 +39,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "TITLE_ID")
-            public Title getTitle() {
+    public Title getTitle() {
             return title;
             }
 

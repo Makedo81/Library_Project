@@ -18,7 +18,6 @@ public class BookService {
 
     public List<BookAvailableDto> availableTitlesList = new ArrayList<>();
     public static final String AVAILABLE = "available";
-    public static final String RENTED = "rented";
     public static final String LOST = "lost";
     @Autowired
     BookDao bookDao;
@@ -41,7 +40,7 @@ public class BookService {
         for (int i = 0; i <= titleIdToCheck.size(); i++) {
             List<Book> booksAvaialble = bookDao.findAllById(titleIdToCheck.get(i).getId());
             for (i = 0; i <= booksAvaialble.size(); i++) {
-                List<BookAvailableDto>list = bookMapper.mapToBookAvaialbleDtoList(booksAvaialble);
+                List<BookAvailableDto>list = bookMapper.mapToBookAvailableDtoList(booksAvaialble);
                 availableTitlesList = list.stream()
                         .filter(b->b.getStatus().equals(AVAILABLE))
                         .collect(Collectors.toList());

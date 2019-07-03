@@ -1,9 +1,10 @@
 package com.kodilla.library.mapper;
 
-import com.kodilla.library.domain.*;
+import com.kodilla.library.domain.BookAvailableDto;
+import com.kodilla.library.domain.BookDto;
+import com.kodilla.library.domain.BookWithTitleIdDto;
 import com.kodilla.library.entity.Book;
 import com.kodilla.library.entity.Title;
-import com.kodilla.library.repository.BookDao;
 import com.kodilla.library.repository.TitleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,9 +15,7 @@ import java.util.stream.Collectors;
 public class BookMapper {
 
     @Autowired
-    TitleDao titleDao;
-    @Autowired
-    BookDao bookDao;
+    private TitleDao titleDao;
 
         public BookDto mapToBookDto(Book book) {
         return new BookDto(
@@ -38,7 +37,7 @@ public class BookMapper {
                 book.getTitle().getYear_published());
     }
 
-    public List<BookAvailableDto> mapToBookAvaialbleDtoList(List<Book> bookList) {
+    public List<BookAvailableDto> mapToBookAvailableDtoList(List<Book> bookList) {
         return bookList.stream()
                 .map(this::mapToTitleBookDto)
                 .collect(Collectors.toList());

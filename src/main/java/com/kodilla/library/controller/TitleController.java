@@ -1,14 +1,10 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.TitleDto;
-import com.kodilla.library.entity.Title;
 import com.kodilla.library.mapper.TitleMapper;
 import com.kodilla.library.service.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -16,9 +12,9 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class TitleController {
 
     @Autowired
-    TitleService titleService;
+    private TitleService titleService;
     @Autowired
-    TitleMapper titleMapper;
+    private TitleMapper titleMapper;
 
     @RequestMapping(method = RequestMethod.POST,value = "addTitle",consumes = APPLICATION_JSON_VALUE)
     public void addTitle(@RequestBody TitleDto titleDto) {
